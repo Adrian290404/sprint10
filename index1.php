@@ -25,6 +25,7 @@
     ];
 
 ?>
+
 <pre>
     <?php
         print_r($rooms);
