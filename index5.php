@@ -12,7 +12,7 @@
 
     while($row = $res -> fetch_assoc()){
         $available = $row["avaiable"] ? "Yes" : "No";
-        $message = $message . "<li>Room Name: " . $row["room_name"] . "<br>Bed Type: " . $row["bed_type"] . "<br>Room Floor: " . $row["room_floor"] . "<br>Facilities: " . $row["facilities"] . "<br>Price: " . $row["rate"] . "<br>Available: " . $available . "<br>Image: " . $row["image"] . "</li><br><br>";
+        $message = $message . "<li><b>Room Name:</b> " . $row["room_name"] . "<br><b>Bed Type:</b> " . $row["bed_type"] . "<br><b>Room Floor:</b> " . $row["room_floor"] . "<br><b>Facilities:</b> " . $row["facilities"] . "<br><b>Price:</b> " . $row["rate"] . "<br><b>Available:</b> " . $available . "<br><b>Image:</b> " . $row["image"] . "</li><br><br>";
     }
 
 ?>
