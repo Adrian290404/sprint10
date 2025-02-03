@@ -7,8 +7,8 @@
 </head>
 <body>
     <form>
-        <label for="num">ID:</label>
-        <input type="text" id="num" name="num">
+        <label for="roomName">ID:</label>
+        <input type="text" id="roomName" name="roomName">
         <input type="submit">
     </form>
     <br><br>
@@ -19,26 +19,29 @@
 
     include_once("conection.php");
 
-    $id = null;
-    if (isset($_GET["num"]) && !empty($_GET["num"])){
-        $id = intval($_GET["num"]);
+    $text = null;
+    $message = "";
+    if (isset($_GET["roomName"]) && !empty($_GET["roomName"])){
+        $text = ($_GET["roomName"]);
     }
 
-    if ($id != null){
-        $query = "SELECT * FROM rooms WHERE id = $id";
+    if ($text != null){
+        $query = "SELECT * FROM rooms WHERE room_name LIKE '$text%'";
         $res = $conn -> query($query);
         if ($res -> num_rows == 0) {
-            echo "No room found with this ID.";
+            $message = "No room found.";
         }
         else{
             while ($row = $res -> fetch_assoc()) {
                 $available = $row["avaiable"] ? "Yes" : "No";
-                echo "<b>ID:</b> " . $row["id"] . "<br><b>Room Name:</b> " . $row["room_name"] . "<br><b>Bed Type:</b> " . $row["bed_type"] . "<br><b>Room Floor:</b> " . $row["room_floor"] . "<br><b>Facilities:</b> " . $row["facilities"] . "<br><b>Price:</b> " . $row["rate"] . "<br><b>Available:</b> " . $available . "<br><b>Image:</b> " . $row["image"];
+                $message = $message . "<li><b>ID:</b> " . $row["id"] . "</li><li><b>Room Name:</b> " . $row["room_name"] . "</li><li><b>Bed Type:</b> " . $row["bed_type"] . "</li><li><b>Room Floor:</b> " . $row["room_floor"] . "</li><li><b>Facilities:</b> " . $row["facilities"] . "</li><li><b>Price:</b> " . $row["rate"] . "</li><li><b>Available:</b> " . $available . "</li><li><b>Image:</b> " . $row["image"] . "</li><br><br>";
             }
         }
     }
     else{
-        echo "Please enter a valid ID.";
+        $message = "Please enter any text on input.";
     }
+
+    echo $message;
 
 ?>
