@@ -7,9 +7,9 @@
 </head>
 <body>
     <form>
-        <label for="roomName">ID:</label>
+        <label for="roomName">Search: </label>
         <input type="text" id="roomName" name="roomName">
-        <input type="submit">
+        <input type="submit" value="Search">
     </form>
     <br><br>
 </body>
