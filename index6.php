@@ -1,6 +1,6 @@
 <?php
 
-    include_once("conection.php");
+    include_once("conectionHotel.php");
 
     $message = "";
     $query = "SELECT * FROM rooms";

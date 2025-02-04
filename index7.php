@@ -17,7 +17,7 @@
 
 <?php
 
-    include_once("conection.php");
+    include_once("conectionHotel.php");
 
     $text = null;
     $message = "";
