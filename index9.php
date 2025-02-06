@@ -34,21 +34,30 @@
     $number = isset($_POST["number"]) ? $_POST["number"] : "";
     $price = isset($_POST["price"]) ? $_POST["price"] : "";
     $discount = isset($_POST["discount"]) ? $_POST["discount"] : "";
-    if (!empty($name) && !empty($number) && !empty($price) && !empty($discount)) {
-        $prevData = $conn -> query("SELECT * FROM rooms");
-        
-        $sql = "INSERT INTO rooms (name, number, price, discount) VALUES ('$name', $number, $price, $discount)";
-        $res = $conn -> query($sql);
 
-        $checkData = $conn -> query("SELECT * FROM rooms");
-        if ($checkData -> num_rows > $prevData -> num_rows){
-            echo "New room added successfully.<br><br>";
+    if (!empty($name) && !empty($number) && !empty($price) && !empty($discount)) {
+        $prevData = $conn->query("SELECT * FROM rooms");
+
+        $sql = "INSERT INTO rooms (name, number, price, discount) VALUES (?, ?, ?, ?)";
+        
+        if ($stmt = $conn->prepare($sql)) {
+            $stmt->bind_param("siii", $name, $number, $price, $discount);
+            $stmt->execute();
+            $stmt->close();
         }
-        else{
+
+        $checkData = $conn->query("SELECT * FROM rooms");
+        if ($checkData->num_rows > $prevData->num_rows) {
+            echo "New room added successfully.";
+        } 
+        else {
             echo "Error, room not added.";
         }
-    }
-    else{
+    } 
+    else {
         echo "Please, fill all fields.";
     }
+
+    $conn->close();
+
 ?>
