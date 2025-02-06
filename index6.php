@@ -1,52 +1,46 @@
 <?php
 
-    include_once("conectionHotel.php");
+include_once("conectionHotel.php");
 
     $message = "";
     $query = "SELECT * FROM rooms";
-    $res = $conn -> query($query);
+    $res = $conn->query($query);
 
     $id = null;
     $idOnRooms = false;
 
-    if($res -> num_rows == 0){
+    if ($res->num_rows == 0) {
         echo "Error, no data provided.";
-    }
-    else{
-
-        if (isset($_GET["id"])){
-
-            if (is_numeric($_GET["id"]) && !empty($_GET["id"])){
-    
+    } 
+    else {
+        if (isset($_GET["id"])) {
+            if (is_numeric($_GET["id"]) && !empty($_GET["id"])) {
                 $id = intval($_GET["id"]);
-                while($row = $res -> fetch_assoc()){
-                    if ($row["id"] == $id){
-                        $idOnRooms = true;
-                    }
-                }
-    
-                if (!$idOnRooms){
+                
+                $stmt = $conn->prepare("SELECT * FROM rooms WHERE id = ?");
+                $stmt->bind_param("i", $id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                
+                if ($result->num_rows == 0) {
                     echo "Room not found.";
-                }
-                else{
-                    $roomData = "SELECT * FROM rooms WHERE id = $id";
-                    $findRoom = $conn -> query($roomData);
-                    while($row = $findRoom -> fetch_assoc()){
+                } else {
+                    while ($row = $result->fetch_assoc()) {
                         $available = $row["avaiable"] ? "Yes" : "No";
                         echo "<b>ID:</b> " . $row["id"] . "<br><b>Room Name:</b> " . $row["room_name"] . "<br><b>Bed Type:</b> " . $row["bed_type"] . "<br><b>Room Floor:</b> " . $row["room_floor"] . "<br><b>Facilities:</b> " . $row["facilities"] . "<br><b>Price:</b> " . $row["rate"] . "<br><b>Available:</b> " . $available . "<br><b>Image:</b> " . $row["image"];
                     }
                 }
-    
-            }
-            else{
+                
+                $stmt->close();
+            } 
+        else {
                 echo "The ID must be a number.";
             }
-    
-        }
-        else{
+        } else {
             echo "No ID parameter has been provided.";
         }
-
     }
+
+    $conn->close();
 
 ?>
