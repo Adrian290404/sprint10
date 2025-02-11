@@ -2,6 +2,7 @@
 
     require_once 'setup.php';
 
-    echo $blade->run("rooms", ["rooms" => $rooms]);
+    // compact("rooms") = ["rooms" => $rooms]
+    echo $blade->run("rooms", compact("rooms"));
 
 ?>
